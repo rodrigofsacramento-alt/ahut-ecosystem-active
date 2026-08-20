@@ -37,8 +37,8 @@ export default function Layout() {
               <Activity className="h-6 w-6 animate-pulse" />
             </div>
             <div>
-              <h1 className="font-bold text-lg leading-tight text-white">Clínica Rocha</h1>
-              <span className="text-xs text-sky-400 font-medium tracking-wide uppercase">CRM Inteligente</span>
+              <h1 className="font-bold text-lg leading-tight text-white">Ahut Ecosystem</h1>
+              <span className="text-xs text-sky-400 font-medium tracking-wide uppercase">Hub de Tecnologia & IA</span>
             </div>
           </div>
 
@@ -73,8 +73,8 @@ export default function Layout() {
               <User className="h-5 w-5" />
             </div>
             <div className="overflow-hidden">
-              <h4 className="text-xs font-semibold text-gray-200 truncate">Dr. Gustavo Rocha</h4>
-              <p className="text-[10px] text-gray-400 truncate">gustavo@clinica.com</p>
+              <h4 className="text-xs font-semibold text-gray-200 truncate">Tech Squad Ahut</h4>
+              <p className="text-[10px] text-gray-400 truncate">tech@ahut.com.br</p>
             </div>
           </div>
           <button

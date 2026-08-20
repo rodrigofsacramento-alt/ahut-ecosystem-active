@@ -1,20 +1,21 @@
 import React from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  MessageSquare, 
-  Calendar, 
-  Home, 
-  FileText, 
-  Scale, 
-  DollarSign, 
-  UserCircle, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Users,
+  MessageSquare,
+  Calendar,
+  Home,
+  FileText,
+  Scale,
+  DollarSign,
+  UserCircle,
+  Settings,
   ChevronLeft,
   Search,
   Plus,
   Bell,
-  LogOut
+  LogOut,
+  Monitor
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '../lib/utils';
@@ -37,6 +38,7 @@ const navItems: NavItem[] = [
   { id: 'contratos', label: 'Contratos', icon: Scale, path: '/contratos', badge: 2 },
   { id: 'financeiro', label: 'Financeiro', icon: DollarSign, path: '/financeiro' },
   { id: 'corretores', label: 'Corretores', icon: UserCircle, path: '/corretores' },
+  { id: 'tecnologia', label: 'Tecnologia & IA', icon: Monitor, path: '/tecnologia' },
 ];
 
 interface SidebarProps {
@@ -60,8 +62,8 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
       <div className="px-4 mb-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder={collapsed ? "" : "Buscar..."}
             className="w-full bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-orange-500 outline-none"
           />
@@ -103,7 +105,7 @@ export function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           <Settings className="w-5 h-5" />
           {!collapsed && <span className="text-sm font-medium">Configurações</span>}
         </button>
-        <button 
+        <button
           onClick={() => setCollapsed(!collapsed)}
           className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-white rounded-lg transition-colors"
         >
@@ -132,22 +134,22 @@ export function Header({ title, subtitle }: { title: string; subtitle?: string }
         <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
         {subtitle && <p className="text-sm text-slate-500">{subtitle}</p>}
       </div>
-      
+
       <div className="flex items-center gap-4">
         <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Buscar leads, imóveis, clientes..."
             className="w-80 bg-slate-50 border border-slate-200 rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-orange-500 outline-none"
           />
         </div>
-        
+
         <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-colors">
           <Plus className="w-4 h-4" />
           Novo
         </button>
-        
+
         <button className="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-orange-500 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white font-bold">5</span>

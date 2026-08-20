@@ -1,99 +1,130 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Sidebar, Header } from './components/Layout';
 import Dashboard from './components/Dashboard';
 import Leads from './components/Leads';
-import Attendance from './components/Attendance';
+import Atendimento from './pages/Atendimento';
 import Agenda from './components/Agenda';
 import Properties from './components/Properties';
 import Proposals from './components/Proposals';
 import Contracts from './components/Contracts';
 import Finance from './components/Finance';
+import Tecnologia from './pages/Tecnologia';
+import Login from './pages/Login';
 
-export default function App() {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 2, // 2 minutos
+      retry: 1
+    }
+  }
+});
+
+function AppLayout({ children, title, subtitle }: { children: React.ReactNode; title: string; subtitle?: string }) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Router>
-      <div className="flex min-h-screen bg-slate-50">
-        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        
-        <div className="flex-1 flex flex-col min-w-0">
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Header title="Dashboard" subtitle="Bem-vindo de volta, João!" />
-                <main className="p-6">
-                  <Dashboard />
-                </main>
-              </>
-            } />
-            <Route path="/leads" element={
-              <>
-                <Header title="Leads" subtitle="Gerencie seus potenciais clientes." />
-                <main className="p-6">
-                  <Leads />
-                </main>
-              </>
-            } />
-            <Route path="/atendimento" element={
-              <>
-                <Header title="Atendimento" subtitle="Central de mensagens e chat." />
-                <main className="p-6 h-[calc(100vh-88px)]">
-                  <Attendance />
-                </main>
-              </>
-            } />
-            <Route path="/agenda" element={
-              <>
-                <Header title="Agenda & Visitas" subtitle="Organize seus compromissos." />
-                <main className="p-6">
-                  <Agenda />
-                </main>
-              </>
-            } />
-            <Route path="/imoveis" element={
-              <>
-                <Header title="Imóveis" subtitle="Catálogo completo de propriedades." />
-                <main className="p-6">
-                  <Properties />
-                </main>
-              </>
-            } />
-            <Route path="/propostas" element={
-              <>
-                <Header title="Propostas" subtitle="Acompanhamento de negociações." />
-                <main className="p-6">
-                  <Proposals />
-                </main>
-              </>
-            } />
-            <Route path="/contratos" element={
-              <>
-                <Header title="Contratos" subtitle="Gestão de contratos e documentos." />
-                <main className="p-6">
-                  <Contracts />
-                </main>
-              </>
-            } />
-            <Route path="/financeiro" element={
-              <>
-                <Header title="Financeiro" subtitle="Controle de caixa e comissões." />
-                <main className="p-6">
-                  <Finance />
-                </main>
-              </>
-            } />
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
+    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Header title={title} subtitle={subtitle} />
+        <main className="p-6 flex-1 overflow-auto">
+          {children}
+        </main>
       </div>
-    </Router>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          {/* Auth Route */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Main App Routes */}
+          <Route
+            path="/"
+            element={
+              <AppLayout title="Dashboard" subtitle="Visão geral de desempenho imobiliário.">
+                <Dashboard />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/leads"
+            element={
+              <AppLayout title="Leads" subtitle="Gerencie seus potenciais clientes.">
+                <Leads />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/atendimento"
+            element={
+              <AppLayout title="Central de Atendimento" subtitle="Chat em tempo real e integração com WhatsApp.">
+                <Atendimento />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/agenda"
+            element={
+              <AppLayout title="Agenda & Visitas" subtitle="Organize seus compromissos e visitas a imóveis.">
+                <Agenda />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/imoveis"
+            element={
+              <AppLayout title="Imóveis" subtitle="Catálogo completo de propriedades.">
+                <Properties />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/propostas"
+            element={
+              <AppLayout title="Propostas" subtitle="Acompanhamento e negociações ativas.">
+                <Proposals />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/contratos"
+            element={
+              <AppLayout title="Contratos" subtitle="Gestão de contratos e documentação jurídica.">
+                <Contracts />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/financeiro"
+            element={
+              <AppLayout title="Financeiro" subtitle="Fluxo de caixa, recebíveis e comissões.">
+                <Finance />
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/tecnologia"
+            element={
+              <AppLayout title="Squad de Tecnologia & Chamados" subtitle="Kanban de acompanhamento e triagem inteligente com Agente de IA.">
+                <Tecnologia />
+              </AppLayout>
+            }
+          />
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }

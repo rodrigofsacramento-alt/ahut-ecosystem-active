@@ -1280,7 +1280,7 @@ async function findOrCreateWhatsappConversation(
           phone_number: phoneToStore,
           name: displayName,
           profile_pic_status: 'pending',
-
+          is_group: remoteJid.endsWith('@g.us'),
           last_message_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         });
